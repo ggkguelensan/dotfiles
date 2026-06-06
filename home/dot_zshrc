@@ -98,6 +98,16 @@ alias dpsa="docker ps -a"
 alias di="docker images"
 alias dc="docker-compose"
 
+# Claude Code алиасы — только там, где установлен `claude` (runtime-guarded).
+# ВНИМАНИЕ: `cc` перекрывает C-компилятор (/usr/bin/cc) ТОЛЬКО в интерактивном
+# shell; сборочные тулзы вызывают cc через PATH, не через алиас. Если нужен
+# компилятор интерактивно — `command cc` или /usr/bin/cc.
+# caffeinate -i (idle) -m (disk) -s (system sleep, на питании от сети).
+if command -v claude >/dev/null 2>&1; then
+  alias cc='caffeinate -ims claude'                                    # всегда caffeinated: Mac не уснёт
+  alias ccp='caffeinate -ims claude --dangerously-skip-permissions'    # + skip permissions (yolo)
+fi
+
 # Дополнительные настройки для улучшения терминала
 export EDITOR='nano'
 export BROWSER='lynx'
