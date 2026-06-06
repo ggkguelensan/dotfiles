@@ -1,0 +1,16 @@
+# Curated core VS Code extensions — one ID per line; lines starting with # are skipped by install scripts
+anthropic.claude-code
+eamodio.gitlens
+mhutchie.git-graph
+esbenp.prettier-vscode
+biomejs.biome
+bradlc.vscode-tailwindcss
+streetsidesoftware.code-spell-checker
+streetsidesoftware.code-spell-checker-russian
+vscode-icons-team.vscode-icons
+johnpapa.vscode-peacock
+wenbopan.vscode-terminal-osc-notifier
+ms-playwright.playwright
+vitest.explorer
+redhat.vscode-yaml
+mikestead.dotenv

@@ -1,0 +1,42 @@
+# Per-OS routing: patterns listed here are NOT applied on this machine.
+# Patterns are target paths relative to ~ (i.e. relative to home/ in the source).
+# Scripts are matched by their target name (run_onchange_/.tmpl stripped); the
+# raw source names are listed too as a belt-and-braces fallback.
+
+{{- if ne .chezmoi.os "windows" }}
+# Windows-only targets
+AppData
+AppData/**
+.wslconfig
+install-vscode-extensions.ps1
+run_onchange_install-vscode-extensions.ps1
+{{- end }}
+
+{{- if ne .chezmoi.os "darwin" }}
+# macOS-only targets
+Library
+Library/**
+.config/cmux
+.config/cmux/**
+{{- end }}
+
+{{- if not .wsl }}
+# WSL-only: VS Code Remote-WSL machine-layer settings
+.vscode-server
+.vscode-server/**
+{{- end }}
+
+{{- if eq .chezmoi.os "windows" }}
+# Unix-only targets (shell, tmux, notifier, ghostty/cmux; Claude Code hooks are unix-only in this repo for now)
+.zshrc
+.p10k.zsh
+.tmux.conf
+.local
+.local/**
+.config
+.config/**
+.claude
+.claude/**
+install-vscode-extensions.sh
+run_onchange_install-vscode-extensions.sh
+{{- end }}

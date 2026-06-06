@@ -1,0 +1,16 @@
+# ~/.gitconfig — managed by chezmoi (source: home/dot_gitconfig.tmpl)
+[user]
+	name = geragk
+	email = {{ .email }}
+[init]
+	defaultBranch = main
+# gh as the credential helper. The empty `helper =` first resets any
+# system-level helpers; `!gh auth git-credential` resolves gh from PATH,
+# which works on Linux/WSL, macOS and Windows alike (portable form,
+# unlike the previous hardcoded !/usr/bin/gh).
+[credential "https://github.com"]
+	helper =
+	helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !gh auth git-credential

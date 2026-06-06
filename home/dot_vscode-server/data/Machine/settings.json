@@ -1,0 +1,40 @@
+{
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.claude/worktrees/**": true,
+    "**/dist/**": true,
+    "**/out/**": true,
+    "**/.next/**": true,
+    "**/coverage/**": true,
+    "**/.venv/**": true
+  },
+  "search.exclude": {
+    "**/node_modules/**": true,
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.claude/worktrees/**": true,
+    "**/dist/**": true,
+    "**/out/**": true,
+    "**/.next/**": true,
+    "**/coverage/**": true,
+    "**/.venv/**": true
+  },
+  "search.followSymlinks": false,
+  "terminal.integrated.profiles.linux": {
+    "zsh": {
+      "path": "zsh",
+      "icon": "terminal"
+    },
+    "agent-tmux": {
+      "path": "zsh",
+      "args": ["-c", "tmux new-session -A -s agent-$(basename $PWD)"],
+      "icon": "robot",
+      "color": "terminalAnsiMagenta"
+    }
+  },
+  "terminal.integrated.automationProfile.linux": {
+    "path": "zsh"
+  }
+}

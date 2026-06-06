@@ -1,0 +1,40 @@
+{
+  // cmux app settings (manaflow-ai/cmux, macOS-only — routed darwin-only by
+  // .chezmoiignore). This file is JSONC BY DESIGN: cmux explicitly allows
+  // comments and trailing commas — a documented exception to the repo's
+  // strict-JSON convention.
+  // Terminal rendering (font/theme/scrollback) is INHERITED from
+  // ~/.config/ghostty/config — configure it there, not here.
+  // Reload: cmd+shift+, or `cmux reload-config`.
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  "app": {
+    // defaults to true — opt out
+    "sendAnonymousTelemetry": false
+  },
+
+  // Claude Code integration is ZERO-CONFIG inside cmux: the bundled `claude`
+  // wrapper (/Applications/cmux.app/Contents/Resources/bin/claude) injects
+  // hooks ephemerally via `claude --settings` when CMUX_SURFACE_ID is set.
+  // Do NOT add cmux hooks to ~/.claude/settings.json — it would double-fire.
+  // Opt-out per shell: CMUX_CLAUDE_HOOKS_DISABLED=1.
+  "automation": {
+    "claudeCodeIntegration": true,
+    // mute nested subagent (Claude/Codex) notification noise
+    "suppressSubagentNotifications": true
+  },
+
+  // Sidebar: PR status uses GH_TOKEN/GITHUB_TOKEN or `gh auth token` —
+  // an authenticated gh CLI is the practical prerequisite (see dotfiles-setup).
+  // All sidebar.* display toggles default to true; override here if noisy.
+
+  // Custom palette commands / pre-split agent workspaces:
+  // see https://cmux.com/docs/custom-commands — project-local .cmux/cmux.json
+  // can override `commands` per repo.
+
+  // NOT managed here (machine-local, never commit):
+  //   terminal.resumeCommands[] — HMAC-signed, machine-bound approvals
+  //   ~/Library/Application Support/cmux/ — session state
+  //   ~/.cmuxterm/ — agent hook session registries
+}

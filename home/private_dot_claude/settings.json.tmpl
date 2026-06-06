@@ -1,0 +1,32 @@
+{
+  "effortLevel": "xhigh",
+  "skipDangerousModePermissionPrompt": true,
+  "tui": "fullscreen",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh",
+    "refreshInterval": 60
+  }{{ if ne .chezmoi.os "windows" }},
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/bin/agent-notify \"needs input\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.local/bin/agent-notify \"done\""
+          }
+        ]
+      }
+    ]
+  }{{ end }}
+}

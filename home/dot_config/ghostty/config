@@ -1,0 +1,78 @@
+# ── Ghostty config (chezmoi source: home/dot_config/ghostty/config) ──────────
+# Applies on macOS AND Linux: the XDG path ~/.config/ghostty/config is read on
+# both (macOS Application Support config would override it — keep that empty).
+# cmux (manaflow-ai) reads this file too for font/theme/scrollback inheritance.
+# Reload: cmd+shift+, (macOS) / ctrl+shift+, (Linux).
+# NOTE: '#' comments must be on their own line (no trailing comments).
+# Windows: Ghostty is not available (explicitly not planned as of 1.3) — this
+# file is routed unix-only by .chezmoiignore.
+
+# ── Font ──
+# Nerd Font so p10k segments and agent TUI glyphs render; Ghostty auto-falls
+# back to bundled fonts (incl. emoji) for missing glyphs.
+font-family = MesloLGS NF
+font-size = 13
+
+# ── Theme: auto light/dark following OS appearance ──
+# List available: ghostty +list-themes
+theme = light:catppuccin-latte,dark:catppuccin-mocha
+
+# ── Scrollback: value is BYTES, not lines (default 10MB) — ~100MB for agents ──
+scrollback-limit = 100000000
+
+# ── Shell integration (zsh auto-injected; powers OSC 133 prompt jumps,
+#    cwd inheritance, notify-on-command-finish, close-confirm suppression) ──
+shell-integration = detect
+shell-integration-features = cursor,title,sudo,ssh-env
+
+# ── Notifications ──
+# Claude Code detects TERM_PROGRAM=ghostty and emits OSC 9 natively — desktop
+# toasts work with NO hooks (unlike the VS Code integrated terminal).
+# macOS: grant Ghostty Notifications permission in System Settings once.
+desktop-notifications = true
+# Native OSC 9;4 progress bars (ConEmu sequence; Claude Code emits these)
+progress-style = true
+# Terminal-level alert when a long command finishes in an unfocused surface (1.3+)
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 10s
+
+# ── Bell: visible attention, no sound (dock bounce / urgency + 🔔 in title
+#    + border flash). Claude preferredNotifChannel=terminal_bell triggers these. ──
+bell-features = attention,title,border
+
+# ── Clipboard ──
+# Select-to-copy straight into the SYSTEM clipboard
+copy-on-select = clipboard
+clipboard-read = ask
+clipboard-write = allow
+# Confirm suspicious multi-line pastes (agent-output safety)
+clipboard-paste-protection = true
+
+# ── Windows / tabs / splits ──
+# Restore windows+tabs+splits across restarts (macOS only; inert on Linux)
+window-save-state = always
+# New tabs/splits keep the current (agent's) working directory (1.3+)
+tab-inherit-working-directory = true
+split-inherit-working-directory = true
+# 10s window to cmd+z an accidentally closed agent terminal (macOS, 1.2+)
+undo-timeout = 10s
+
+# ── Quick terminal: dropdown scratch terminal for a quick agent check ──
+quick-terminal-position = center
+quick-terminal-size = 60%,70%
+# global: = system-wide hotkey (macOS only; needs Accessibility permission)
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+# Linux variant (non-global)
+keybind = ctrl+grave_accent=toggle_quick_terminal
+
+# ── macOS specifics (inert on Linux) ──
+# Option = Alt so Claude Code's Option+Enter / Option+P shortcuts work
+macos-option-as-alt = true
+# Merge tab bar into titlebar: max vertical space for many agent tabs
+macos-titlebar-style = tabs
+
+# ── Misc ──
+mouse-hide-while-typing = true
+# Machine-local overrides, optional ('?' = ignore if file missing)
+config-file = ?local

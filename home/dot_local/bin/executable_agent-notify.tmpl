@@ -1,0 +1,44 @@
+#!/bin/sh
+# agent-notify -- cross-OS attention signal for Claude Code hooks.
+# Usage: agent-notify <event-label...>  e.g.  agent-notify "needs input"
+# All arguments are joined into the message body.
+# Managed by chezmoi (source: home/dot_local/bin/executable_agent-notify.tmpl).
+# Must be FAST and never fail: every path is guarded, exit is always 0.
+
+msg="${*:-event}"
+
+{{ if .wsl -}}
+# --- WSL2: raise a Windows toast via interop ---
+# Order matters: wsl-notify-send.exe is a single Go binary (~100ms);
+# powershell.exe cold start is 1-2s, so it is only the fallback.
+if command -v wsl-notify-send.exe >/dev/null 2>&1; then
+    wsl-notify-send.exe --category "Claude Code" "$msg" >/dev/null 2>&1
+else
+    # Absolute path fallback keeps this working when appendWindowsPath=false.
+    pwsh_exe="$(command -v powershell.exe 2>/dev/null || true)"
+    [ -n "$pwsh_exe" ] || pwsh_exe="/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe"
+    if [ -x "$pwsh_exe" ]; then
+        # Double single-quotes for PowerShell single-quoted string literals.
+        ps_msg=$(printf '%s' "$msg" | sed "s/'/''/g")
+        "$pwsh_exe" -NoProfile -NonInteractive -Command \
+            "try { Import-Module BurntToast -ErrorAction Stop; New-BurntToastNotification -Text 'Claude Code','$ps_msg' } catch { }" \
+            >/dev/null 2>&1
+    fi
+fi
+{{ else if eq .chezmoi.os "darwin" -}}
+# --- macOS: native notification center ---
+osa_msg=$(printf '%s' "$msg" | sed 's/"/\\"/g')
+osascript -e "display notification \"$osa_msg\" with title \"Claude Code\"" >/dev/null 2>&1
+{{ else -}}
+# --- Linux (non-WSL): libnotify if present ---
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Claude Code" "$msg" >/dev/null 2>&1
+fi
+{{ end -}}
+
+# Always ALSO ring the terminal bell: VS Code turns BEL into a terminal-tab
+# badge and (with accessibility.signals.terminalBell sound=on) an audible cue.
+# Prefer the controlling tty (hook stdout is captured); fall back to stdout.
+( printf '\a' > /dev/tty ) 2>/dev/null || printf '\a'
+
+exit 0

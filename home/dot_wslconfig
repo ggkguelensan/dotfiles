@@ -1,0 +1,18 @@
+# ~/.wslconfig — global WSL2 VM settings (Windows side, applies to all distros).
+# Tuned for running 5-10 parallel Node-heavy CLI agents inside WSL:
+#   memory   = explicit cap; set to ~60% of host RAM (20GB assumes a ~32GB host — adjust per machine)
+#   swap     = larger swap so the Linux OOM-killer doesn't snipe an agent under burst load
+#   autoMemoryReclaim = return idle page cache to Windows (Node processes churn cache)
+#   sparseVhd = auto-shrink the VHDX (worktree churn creates/deletes GBs of node_modules)
+# Changes apply only after `wsl --shutdown` (warning: kills everything running in WSL).
+# Newer WSL releases may promote the [experimental] keys into [wsl2]; re-check after `wsl --update`.
+
+[wsl2]
+networkingMode=mirrored
+memory=20GB
+swap=8GB
+dnsTunneling=true
+
+[experimental]
+autoMemoryReclaim=gradual
+sparseVhd=true

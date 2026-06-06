@@ -1,0 +1,20 @@
+#!/bin/sh
+# Installs the curated VS Code extension list (unix: Linux/WSL/macOS).
+# run_onchange: the list below is embedded via includeTemplate, so editing
+# .chezmoitemplates/vscode-extensions.txt re-triggers this script.
+set -eu
+
+if ! command -v code >/dev/null 2>&1; then
+  echo "vscode-extensions: 'code' CLI not found, skipping" >&2
+  exit 0
+fi
+
+while IFS= read -r ext; do
+  case "$ext" in
+    ""|"#"*) continue ;;
+  esac
+  echo "vscode-extensions: ensuring $ext"
+  code --install-extension "$ext" || echo "vscode-extensions: failed to install $ext" >&2
+done <<'EXTENSIONS'
+{{ includeTemplate "vscode-extensions.txt" . }}
+EXTENSIONS

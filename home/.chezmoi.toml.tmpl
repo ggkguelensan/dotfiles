@@ -1,0 +1,15 @@
+{{- /* chezmoi config template — rendered once per machine into the local chezmoi.toml. */ -}}
+{{- /* Template data exposed to all other templates: .email (string), .wsl (bool).      */ -}}
+{{- $email := promptStringOnce . "email" "Git email" "gkguelensan@gmail.com" -}}
+
+{{- /* WSL detection: only touch .chezmoi.kernel inside the linux branch — the field is
+       absent on windows/darwin, and the if-block guarantees it is never evaluated there.
+       On linux .chezmoi.kernel.osrelease always exists (e.g. "...-microsoft-standard-WSL2"). */ -}}
+{{- $wsl := false -}}
+{{- if eq .chezmoi.os "linux" -}}
+{{-   $wsl = contains "microsoft" (lower .chezmoi.kernel.osrelease) -}}
+{{- end -}}
+
+[data]
+    email = {{ $email | quote }}
+    wsl = {{ $wsl }}

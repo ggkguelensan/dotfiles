@@ -1,0 +1,10 @@
+# External files pulled by chezmoi at apply time.
+# statusline.sh is maintained in its own repo (ggkguelensan/claude-code-statusline);
+# dotfiles only consumes the published script. Refreshed at most once a week.
+# Since .claude/** is chezmoiignore'd on Windows, this lands on unix machines only.
+
+[".claude/statusline.sh"]
+    type = "file"
+    url = "https://raw.githubusercontent.com/ggkguelensan/claude-code-statusline/main/statusline.sh"
+    executable = true
+    refreshPeriod = "168h"

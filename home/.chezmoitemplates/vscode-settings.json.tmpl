@@ -1,0 +1,162 @@
+{
+  "window.title": "${rootNameShort} ⊢ ${activeRepositoryBranchName}${separator}${activeEditorShort}${separator}${remoteName}",
+  "window.autoDetectColorScheme": true,
+  "workbench.colorTheme": "Visual Studio Dark",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "none",
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.wrapTabs": true,
+  "workbench.editor.autoLockGroups": {
+    "terminalEditor": true
+  },
+  "workbench.editor.customLabels.patterns": {
+    "**/{layout,page}.tsx": "${dirname} ${filename}"
+  },
+  "editor.fontFamily": "'MesloLGS NF'",
+  "editor.minimap.enabled": false,
+  "editor.tabSize": 2,
+  "files.autoSave": "onFocusChange",
+  "files.hotExit": "onExitAndWindowClose",
+  "files.saveConflictResolution": "askUser",
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.typegen.ts",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts, ${capture}.typegen.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml",
+    "*.mts": "${capture}.typegen.ts",
+    "*.cts": "${capture}.typegen.ts"
+  },
+  "terminal.integrated.fontFamily": "\"MesloLGS NF\"",
+  "terminal.integrated.fontLigatures.enabled": true,
+  "terminal.integrated.scrollback": 10000,
+  "terminal.integrated.enablePersistentSessions": true,
+  "terminal.integrated.persistentSessionScrollback": 5000,
+  "terminal.integrated.persistentSessionReviveProcess": "onExitAndWindowClose",
+  "terminal.integrated.confirmOnKill": "always",
+  "terminal.integrated.confirmOnExit": "hasChildProcesses",
+  "terminal.integrated.enableVisualBell": true,
+  "terminal.integrated.bellDuration": 2000,
+  "terminal.integrated.tabs.location": "left",
+  "terminal.integrated.tabs.hideCondition": "never",
+  "terminal.integrated.tabs.title": "${sequence}",
+  "terminal.integrated.tabs.description": "${cwdFolder}${separator}${task}",
+  "terminal.integrated.minimumContrastRatio": 1,
+  "terminal.integrated.customGlyphs": true,
+  "terminal.integrated.profiles.linux": {
+    "zsh": {
+      "path": "zsh",
+      "icon": "terminal"
+    }
+  },
+  "terminal.integrated.profiles.osx": {
+    "zsh": {
+      "path": "zsh",
+      "icon": "terminal"
+    }
+  },
+  "accessibility.signals.terminalBell": {
+    "sound": "on"
+  },
+  "accessibility.signals.terminalCommandFailed": {
+    "sound": "on"
+  },
+  "remote.autoForwardPortsSource": "hybrid",
+  "remote.portsAttributes": {
+    "9229-9249": {
+      "label": "node inspectors",
+      "onAutoForward": "ignore"
+    }
+  },
+  "remote.otherPortsAttributes": {
+    "onAutoForward": "silent"
+  },
+  "scm.countBadge": "tracked",
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "never",
+  "git.ignoreRebaseWarning": true,
+  "git.suggestSmartCommit": false,
+  "githubPullRequests.pushBranch": "always",
+  "gitlens.graph.layout": "editor",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "chat.agent.enabled": true,
+  "chat.agent.maxRequests": 50,
+  "chat.instructionsFilesLocations": {
+    ".claude/rules": true,
+    "~/.claude/rules": true
+  },
+  "claudeCode.preferredLocation": "panel",
+  "typescript.experimental.useTsgo": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "eslint.enable": false,
+  "cSpell.language": "en,ru",
+  "vsicons.dontShowNewVersionMessage": true,
+  "redhat.telemetry.enabled": false,
+  "settingsSync.ignoredExtensions": ["lokalise.i18n-ally"],
+  "settingsSync.ignoredSettings": ["eslint.experimental.useFlatConfig"],
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://biomejs.dev": true
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "content-class",
+    ":class",
+    "cva",
+    "cn",
+    "clsx"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    },
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
+}
