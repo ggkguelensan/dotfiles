@@ -37,6 +37,7 @@ Run every row for the detected OS. Pattern per step: **check → fix → verify*
 |---|---|---|
 | MesloLGS NF font installed | `fc-list \| grep -i meslo` (Linux/WSL); Font Book (macOS); Settings → Fonts (Windows) | Follow `docs/fonts.md` (direct TTF links, brew casks, per-OS commands). Remember: WSL terminals render on the WINDOWS side — install fonts there, not in the distro |
 | `code` CLI on PATH | `command -v code` | macOS: "Shell Command: Install 'code' command in PATH"; Windows: reinstall VS Code with PATH option; WSL: open a folder via Remote-WSL once |
+| oh-my-zsh theme + plugins (dot_zshrc references p10k + zsh-autosuggestions/-syntax-highlighting/-completions; chezmoi carries the .zshrc, NOT the clones) | open a NEW interactive shell — no `plugin '…' not found` / `theme 'powerlevel10k/powerlevel10k' not found`; `ls "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"` | `chezmoi apply` runs `run_onchange_install-zsh-plugins.sh`, which installs oh-my-zsh (if absent) and clones the theme + 3 plugins into `$ZSH_CUSTOM`. Verify with an INTERACTIVE shell (`zsh -i -c true`) — `zsh -n` is a syntax check that does NOT load oh-my-zsh and silently misses these warnings |
 | Claude statusline renders | run `claude` and look at the bottom line; script exists at the target in `home/.chezmoiexternal.toml` (`~/.claude/statusline.sh`) | `chezmoi --refresh-externals apply`; check the script's interpreter deps (use `/usr/bin/python3`, not jq — WSL has no jq by default) |
 
 ### WSL2 (inside the distro)

@@ -30,13 +30,33 @@ CLI alternative if oh-my-posh is around: `oh-my-posh font install meslo`.
 
 ### macOS
 
+Install the **four p10k TTFs** above (same links as the Windows section) via
+Font Book (double-click → Install) or straight into `~/Library/Fonts`:
+
 ```sh
-brew install --cask font-meslo-lg-nerd-font        # Nerd Fonts Meslo family
-brew install --cask font-jetbrains-mono-nerd-font  # fallback in the VS Code chain
+cd ~/Library/Fonts
+base="https://github.com/romkatv/powerlevel10k-media/raw/master"
+for v in "Regular" "Bold" "Italic" "Bold Italic"; do
+  curl -fsSL -o "MesloLGS NF ${v}.ttf" "$base/MesloLGS%20NF%20${v// /%20}.ttf"
+done
 ```
 
-Or install the same four p10k TTFs above via Font Book (double-click → Install) —
-the p10k build is the reference variant the prompt was designed against.
+The family name of this build is literally **`MesloLGS NF`** — exactly what
+`home/dot_config/ghostty/config` (`font-family = MesloLGS NF`) and the VS Code
+templates reference by name.
+
+> ⚠️ **The Homebrew cask is NOT a drop-in for the prompt font.**
+> `brew install --cask font-meslo-lg-nerd-font` installs a DIFFERENT family name —
+> **`MesloLGS Nerd Font`** — so Ghostty's `font-family = MesloLGS NF` will not
+> resolve it and silently falls back. The cask is fine as a VS Code glyph
+> *fallback*; the `MesloLGS NF` TTFs above are required for the named lookups.
+> (Check what got installed: `mdls -name com_apple_ats_name_family "$f"`.)
+
+```sh
+# Optional fallbacks for the VS Code font chain (NOT the named `MesloLGS NF` lookup):
+brew install --cask font-meslo-lg-nerd-font        # 'MesloLGS Nerd Font'
+brew install --cask font-jetbrains-mono-nerd-font  # 'JetBrainsMono Nerd Font'
+```
 
 ### WSL / Linux (only for WSLg GUI apps or native-Linux terminals)
 
