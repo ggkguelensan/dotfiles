@@ -162,11 +162,17 @@ fi
 
 # fnm — exactly ONE init block (the old .zshrc had three duplicates, eval'ing
 # `fnm env` 3x per shell). --use-on-cd switches node versions on directory change.
+# --log-level error: the use-on-cd hook otherwise prints "Using Node vX.Y.Z" at
+# info level whenever it switches versions; that console write during init lands
+# after the p10k instant-prompt preamble and trips its "console output" warning.
+# `error` silences the routine line but still surfaces real failures (e.g. a
+# version a project pins but hasn't installed). Baked into FNM_LOGLEVEL by the
+# eval, so the later `fnm use` in the chpwd hook inherits it.
 if [ -d "$HOME/.local/share/fnm" ]; then
   export PATH="$HOME/.local/share/fnm:$PATH"
 fi
 if command -v fnm >/dev/null 2>&1; then
-  eval "$(fnm env --use-on-cd --shell zsh)"
+  eval "$(fnm env --use-on-cd --log-level error --shell zsh)"
 fi
 
 # conda (miniforge3) — lazy-loaded: the hook costs ~100ms+ per shell, so it is
@@ -187,6 +193,14 @@ if [ -d "$HOME/miniforge3" ]; then
     # <<< conda initialize <<<
     conda "$@"
   }
+fi
+
+# Asana PAT for claude-code-statusline — read from the macOS Keychain so the
+# token never lives in this (public) dotfiles repo. Store it once with:
+#   security add-generic-password -a "$USER" -s asana-pat -w '<your-token>'
+# The `security` guard makes this a no-op on Linux/WSL where it does not exist.
+if command -v security >/dev/null 2>&1; then
+  export ASANA_ACCESS_TOKEN="$(security find-generic-password -a "$USER" -s asana-pat -w 2>/dev/null)"
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
