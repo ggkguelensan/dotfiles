@@ -1,11 +1,13 @@
 {
   "effortLevel": "xhigh",
   "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "autoCompactWindow": 180000,
   "tui": "fullscreen",
   "statusLine": {
     "type": "command",
-    "command": "~/.claude/statusline.sh",
-    "refreshInterval": 60
+    "command": "{{ if eq .chezmoi.os "darwin" }}~/.local/bin/claude-code-statusline{{ else }}~/.claude/statusline.sh{{ end }}",
+    "refreshInterval": {{ if eq .chezmoi.os "darwin" }}2{{ else }}60{{ end }}
   }{{ if ne .chezmoi.os "windows" }},
   "hooks": {
     "Notification": [
