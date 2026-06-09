@@ -8,6 +8,15 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Dedup PATH/fpath. CRITICAL for startup speed: oh-my-zsh deletes and fully
+# rebuilds its completion dump whenever $fpath differs from the previous shell
+# (see oh-my-zsh.sh "#omz fpath" metadata check). A rebuild opens ~1500 files,
+# and on machines running Microsoft Defender for Endpoint each open is scanned
+# by its Endpoint Security extension (~1ms+/open) → multi-second startup. A
+# stable, deduped $fpath lets omz reuse the cached dump instead of rebuilding
+# every time you switch between Terminal / VS Code / login shells.
+typeset -U path fpath
+
 # VS Code shell integration (manual hook, recommended when using p10k/omz).
 # Guarded: no-op outside VS Code terminals or if `code` is not on PATH.
 if [[ "$TERM_PROGRAM" == "vscode" ]]; then
@@ -17,7 +26,10 @@ if [[ "$TERM_PROGRAM" == "vscode" ]]; then
 fi
 
 # macOS: Homebrew shellenv (runtime guard — no-op on Linux/WSL).
-if [ "$(uname)" = "Darwin" ] && [ -x /opt/homebrew/bin/brew ]; then
+# Skip if already initialized (e.g. by ~/.zprofile on login shells) so it runs
+# once per shell, not 2-3x — each run is a subprocess eval + churns $fpath.
+if [ "$(uname)" = "Darwin" ] && [ -x /opt/homebrew/bin/brew ] \
+   && [[ ":$PATH:" != *":/opt/homebrew/bin:"* ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
@@ -25,6 +37,11 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Skip omz's completion-security audit (compaudit): it stats/opens every $fpath
+# directory at startup — extra file opens (Defender-scanned). All dirs here are
+# user-owned, so the audit only adds latency.
+ZSH_DISABLE_COMPFIX=true
 
 # Which plugins would you like to load?
 # Add wisely, as too many plugins slow down shell startup.
