@@ -213,5 +213,10 @@ if [ -n "$WSL_DISTRO_NAME" ]; then
   export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=18
 fi
 
+# mimocode CLI — local install; runtime-guarded so it's a no-op where absent.
+if [ -d "$HOME/.mimocode/bin" ]; then
+  export PATH="$HOME/.mimocode/bin:$PATH"
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
