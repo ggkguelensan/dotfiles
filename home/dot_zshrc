@@ -203,5 +203,15 @@ if command -v security >/dev/null 2>&1; then
   export ASANA_ACCESS_TOKEN="$(security find-generic-password -a "$USER" -s asana-pat -w 2>/dev/null)"
 fi
 
+# Claude Code: cap auto-compaction near 180k tokens on the 1M-context model.
+# CLAUDE_AUTOCOMPACT_PCT_OVERRIDE is a PERCENT of the model's context window, and it
+# must be a real shell export — the settings.json `env` block is silently ignored for
+# it (anthropics/claude-code#63186). 18% only equals ~180k on the 1M window, so this is
+# guarded to this WSL machine; a 200k-context machine would wrongly compact at ~36k and
+# already auto-compacts near 180k by default.
+if [ -n "$WSL_DISTRO_NAME" ]; then
+  export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=18
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
